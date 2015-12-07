@@ -1,6 +1,8 @@
 
 ## 开发
+
 + Fork: [Github](https://github.com/shawn0lee0/RUNMAP)
++ [产品分析链接：](https://shawn0lee0.gitbooks.io/python-omooc2py/content/2nDev/index.html)
 + 发起人所在城市:浙江杭州
 + 发起人的优势：七年电子产品开发经验，十年体育竞技类游戏骨灰玩家
 + 已知的技术难点：
