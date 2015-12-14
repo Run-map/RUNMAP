@@ -4,9 +4,10 @@ import json
 
 
 class xBaiduMap:
-    def __init__(self,key='your_key'):
+    def __init__(self,key='1doDqShwqSeBGklH2y4uGR1A'):  #key=ak
         self.host='http://api.map.baidu.com'
         self.path='/geocoder?'
+        self.version='/v2'
         self.param={'address':None,'output':'json','key':key,'location':None,'city':None}
       
     def getLocation(self,address,city=None):
