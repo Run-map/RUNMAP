@@ -13,7 +13,7 @@ import numpy as np
 position = 25
 
 #def main():
-img = cv2.imread('C:\\Users\\Administrator\\Desktop\\cany_contours\\COVER.jpg', 0)
+img = cv2.imread('D:\\python\\RUNMAP\\MVP_V0.3_CannyEdge_to_contours\\COVER.jpg', 0)
 img = cv2.GaussianBlur(img,(3,3),0)
 if img is None:
     raise Exception("Error while loading the image")

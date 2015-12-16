@@ -11,10 +11,10 @@ import cv2.cv as cv
 import numpy as np
 import urllib2
 
-position = 20
+position = 100
 
 def local_jpg_caany_contours():
-    img = cv2.imread('C:\\Users\\Administrator\\Desktop\\cany_contours\\COVER.jpg', 0)
+    img = cv2.imread('D:\\python\\RUNMAP\\MVP_V0.4_add url jpg\\COVER.jpg', 0)
     img = cv2.GaussianBlur(img,(3,3),0)
     if img is None:
         raise Exception("Error while loading the image")
@@ -70,7 +70,7 @@ def local_jpg_caany_contours():
     l.close()
 
     print type(canny_img)
-    cv2.waitKey(0)
+    cv2.waitKey(100)
 
 def url_jpg_contours():
     url = 'http://i12.tietuku.com/05ef0b29030fa46c.jpg'
@@ -89,26 +89,51 @@ def url_jpg_contours():
     cv.SetZero(col_edge)
     # copy edge points
     cv.Copy(im, col_edge, edge_im)
-    ret, edge_jpg = cv2.imencode('.jpg', edge_im, [int(cv.CV_IMWRITE_JPEG_QUALITY), 80])
-    print type(edge_jpg)
-    #edge_jpg_gray = cv2.cvtColor(edge_jpg,cv2.COLOR_BGR2GRAY)
-    ret, edge_im_array = cv2.threshold(edge_jpg,127,255,cv2.THRESH_BINARY)
+    #ret, edge_jpg = cv2.imencode('.jpg', edge_im, [int(cv.CV_IMWRITE_JPEG_QUALITY), 80])
+    edge_im_array = np.asarray(edge_im[:])
+    
+    print type(edge_im_array)
+    #edge_jpg_gray = cv2.cvtColor(edge_im_array,cv2.COLOR_BGR2GRAY)
+    ret, edge_im_array = cv2.threshold(edge_im_array,127,255,cv2.THRESH_BINARY)
     print type(edge_im_array)
     contours, hierarchy = cv2.findContours(edge_im_array, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-    contours_img = cv2.cvtColor(edge_jpg, cv2.COLOR_GRAY2BGR)
+    contours_img = cv2.cvtColor(edge_im_array, cv2.COLOR_GRAY2BGR)
     url_str_len_contours = str(len(contours)) #取轮廊数量
+    contours_list = contours[-1].tolist()
     scale = 1 #不缩放
     contours_img = cv2.resize(contours_img, (0, 0), fx=scale, fy=scale)
     print "Url_jpg_contours_num:%s" %url_str_len_contours
     for cnt in contours:
         color = np.random.randint(0, 255, (3)).tolist()
         cv2.drawContours(contours_img,[cnt*scale], 0, color, 1)
-    cv2.imshow("URL_canny_img", edge_im)
+    cv2.imshow("URL_canny_img", edge_im_array)
     cv2.imshow("URL_contours_img", contours_img)
+    
+    
+    #轮廊清单转文本输出
+    edge_im_array_pix = str(np.size(edge_im_array))
+    contours_img_pix = str(np.size(contours_img))
+    str_len_contours = str(len(contours)) #取轮廊数量
+    ss = open("_url_Contours.txt",'a')
+    ss.write("edge_im_array_pix nums:" +"%s" %edge_im_array_pix + "\n") 
+    ss.write("contours_img_pix nums:" +"%s" %contours_img_pix + "\n") 
+    ss.write("_url_contours num:" +"%s" %str_len_contours + "\n") 
+    for ele in contours:
+     ss.write("%s\n" % ele)
+    ss.write("**"*50  + "\n")
+    ss.close()
+
+    ll = open("_url_contours_list.txt",'a')
+    ll.write("_url_contours num:" +"%s" %str_len_contours + "\n") 
+    ll.write("_url_contours_list"  + "\n")
+    for ele in contours_list:
+     ll.write("%s\n" % ele)
+    ll.write("**"*50  + "\n")
+    ll.close()
     cv2.waitKey(0)
     
 def main():
-    #local_jpg_caany_contours()
+    local_jpg_caany_contours()
     url_jpg_contours()
     
         
