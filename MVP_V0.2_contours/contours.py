@@ -7,7 +7,8 @@ import sys,codecs
 import json #保证与javascript数据格式统一
 import cv2.cv as cv
 import numpy
-position = 100
+
+position = 100 #定义canny初始阈值
 
 img = cv2.imread('C:\\Users\\robo\\Desktop\\pyjpg\\kaizhi.jpg')
 print type(img) #<type 'numpy.ndarray'>
