@@ -28,8 +28,10 @@ def local_jpg_caany_contours():
     str_len_contours = str(len(contours)) #取轮廊数量
     print "contours num:%s" %str_len_contours
     contours_list = contours[-1].tolist()
-    print contours_list
-    print contours_list[0][0]
+    #contours_location=np.array(contours_list).reshape(-1,).tolist()
+    contours_location=np.array(contours_list).tolist()
+    #print contours_list
+    print contours_location
 
 
     scale = 1 #不缩放
@@ -53,7 +55,7 @@ def local_jpg_caany_contours():
     s.write("Gray pix nums:" +"%s" %gray_pix + "\n")
     s.write("canny_img_pix  nums:" +"%s" %canny_img_pix + "\n")
     s.write("contours num:" +"%s" %str_len_contours + "\n") 
-    for ele in contours:
+    for ele in contours_location:
      s.write("%s\n" % ele)
     s.write("**"*50  + "\n")
     s.close()
@@ -64,7 +66,7 @@ def local_jpg_caany_contours():
     l.write("canny_img_pix  nums:" +"%s" %canny_img_pix + "\n")
     l.write("contours num:" +"%s" %str_len_contours + "\n") 
     l.write("contours_list"  + "\n")
-    for ele in contours_list:
+    for ele in contours_location:
      l.write("%s\n" % ele)
     l.write("**"*50  + "\n")
     l.close()
@@ -99,7 +101,15 @@ def url_jpg_contours():
     contours, hierarchy = cv2.findContours(edge_im_array, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     contours_img = cv2.cvtColor(edge_im_array, cv2.COLOR_GRAY2BGR)
     url_str_len_contours = str(len(contours)) #取轮廊数量
-    contours_list = contours[-1].tolist()
+    str_len_contours = str(len(contours)) #取轮廊数量
+    contours_list =  contours[-1].tolist()
+    for i in range(0,len(contours_list)):
+     contours_location = np.array(contours_list[i]).reshape(-1,).tolist()
+    #contours_location=np.array(contours).reshape(-1,).tolist()
+    #contours_location=np.array(contours_list).tolist() #矩阵转数组输出
+    print contours_location
+    
+
     scale = 1 #不缩放
     contours_img = cv2.resize(contours_img, (0, 0), fx=scale, fy=scale)
     print "Url_jpg_contours_num:%s" %url_str_len_contours
@@ -113,27 +123,20 @@ def url_jpg_contours():
     #轮廊清单转文本输出
     edge_im_array_pix = str(np.size(edge_im_array))
     contours_img_pix = str(np.size(contours_img))
-    str_len_contours = str(len(contours)) #取轮廊数量
+
     ss = open("_url_Contours.txt",'a')
     ss.write("edge_im_array_pix nums:" +"%s" %edge_im_array_pix + "\n") 
     ss.write("contours_img_pix nums:" +"%s" %contours_img_pix + "\n") 
     ss.write("_url_contours num:" +"%s" %str_len_contours + "\n") 
-    for ele in contours:
+    for ele in contours_location:
      ss.write("%s\n" % ele)
     ss.write("**"*50  + "\n")
     ss.close()
-
-    ll = open("_url_contours_list.txt",'a')
-    ll.write("_url_contours num:" +"%s" %str_len_contours + "\n") 
-    ll.write("_url_contours_list"  + "\n")
-    for ele in contours_list:
-     ll.write("%s\n" % ele)
-    ll.write("**"*50  + "\n")
-    ll.close()
+    print contours_location[-2][0][1]
     cv2.waitKey(0)
     
 def main():
-    local_jpg_caany_contours()
+    #local_jpg_caany_contours()
     url_jpg_contours()
     
         
