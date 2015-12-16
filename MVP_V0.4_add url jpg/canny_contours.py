@@ -1,0 +1,116 @@
+# -*- coding: utf-8 -*-
+# 2015年12月15日 OpenCV converting Canny edges to contours
+# runmap  by shawn0lee0
+# Ref:http://stackoverflow.com/questions/18074680/extract-single-line-contours-from-canny-edges
+
+
+import cv2
+import sys,codecs
+import json #保证与javascript数据格式统一
+import cv2.cv as cv
+import numpy as np
+import urllib2
+
+position = 20
+
+def local_jpg_caany_contours():
+    img = cv2.imread('C:\\Users\\Administrator\\Desktop\\cany_contours\\COVER.jpg', 0)
+    img = cv2.GaussianBlur(img,(3,3),0)
+    if img is None:
+        raise Exception("Error while loading the image")
+
+    canny_img = cv2.Canny(img, position, position * 3)
+
+    contours, hierarchy = cv2.findContours(canny_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    print type(contours)
+    contours_img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+
+    str_len_contours = str(len(contours)) #取轮廊数量
+    print "contours num:%s" %str_len_contours
+    contours_list = contours[-1].tolist()
+    print contours_list
+    print contours_list[0][0]
+
+
+    scale = 1 #不缩放
+    contours_img = cv2.resize(contours_img, (0, 0), fx=scale, fy=scale)
+
+    for cnt in contours:
+        color = np.random.randint(0, 255, (3)).tolist()
+        cv2.drawContours(contours_img,[cnt*scale], 0, color, 1)
+
+    cv2.imwrite('C:\\Users\\Administrator\\Desktop\\cany_contours\\COVER_canny_img.jpg', canny_img)
+    #cv2.imwrite("fx_canny_contours.jpg", contours_img)
+    cv2.imshow("canny_img", canny_img)
+    cv2.imshow("contours_img", contours_img)
+
+    img_pix = str(np.size(img))
+    gray_pix = str(np.size(contours_img))
+    canny_img_pix = str(np.size(canny_img))
+    #轮廊清单转文本输出
+    s = open("Contours.txt",'a')
+    s.write("Img Gausss  pix nums:" +"%s" %img_pix + "\n") 
+    s.write("Gray pix nums:" +"%s" %gray_pix + "\n")
+    s.write("canny_img_pix  nums:" +"%s" %canny_img_pix + "\n")
+    s.write("contours num:" +"%s" %str_len_contours + "\n") 
+    for ele in contours:
+     s.write("%s\n" % ele)
+    s.write("**"*50  + "\n")
+    s.close()
+
+    l = open("contours_list.txt",'a')
+    l.write("Img Gausss  pix nums:" +"%s" %img_pix + "\n") 
+    l.write("Gray pix nums:" +"%s" %gray_pix + "\n")
+    l.write("canny_img_pix  nums:" +"%s" %canny_img_pix + "\n")
+    l.write("contours num:" +"%s" %str_len_contours + "\n") 
+    l.write("contours_list"  + "\n")
+    for ele in contours_list:
+     l.write("%s\n" % ele)
+    l.write("**"*50  + "\n")
+    l.close()
+
+    print type(canny_img)
+    cv2.waitKey(0)
+
+def url_jpg_contours():
+    url = 'http://i12.tietuku.com/05ef0b29030fa46c.jpg'
+    filedata = urllib2.urlopen(url).read()
+    imagefiledata = cv.CreateMatHeader(1, len(filedata), cv.CV_8UC1)
+    print imagefiledata #<cvmat(type=42424000 8UC1 rows=1 cols=48230 step=48230 )>
+    cv.SetData(imagefiledata, filedata, len(filedata))
+    im = cv.DecodeImage(imagefiledata, cv.CV_LOAD_IMAGE_COLOR)
+    col_edge = cv.CreateImage((im.width, im.height), 8, 3)
+
+    # convert to grayscale
+    gray_im = cv.CreateImage((im.width, im.height), 8, 1)
+    edge_im = cv.CreateImage((im.width, im.height), 8, 1)
+    cv.CvtColor(im, gray_im, cv.CV_BGR2GRAY)
+    cv.Canny(gray_im, edge_im, position, position * 3, 3)
+    cv.SetZero(col_edge)
+    # copy edge points
+    cv.Copy(im, col_edge, edge_im)
+    ret, edge_jpg = cv2.imencode('.jpg', edge_im, [int(cv.CV_IMWRITE_JPEG_QUALITY), 80])
+    print type(edge_jpg)
+    #edge_jpg_gray = cv2.cvtColor(edge_jpg,cv2.COLOR_BGR2GRAY)
+    ret, edge_im_array = cv2.threshold(edge_jpg,127,255,cv2.THRESH_BINARY)
+    print type(edge_im_array)
+    contours, hierarchy = cv2.findContours(edge_im_array, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    contours_img = cv2.cvtColor(edge_jpg, cv2.COLOR_GRAY2BGR)
+    url_str_len_contours = str(len(contours)) #取轮廊数量
+    scale = 1 #不缩放
+    contours_img = cv2.resize(contours_img, (0, 0), fx=scale, fy=scale)
+    print "Url_jpg_contours_num:%s" %url_str_len_contours
+    for cnt in contours:
+        color = np.random.randint(0, 255, (3)).tolist()
+        cv2.drawContours(contours_img,[cnt*scale], 0, color, 1)
+    cv2.imshow("URL_canny_img", edge_im)
+    cv2.imshow("URL_contours_img", contours_img)
+    cv2.waitKey(0)
+    
+def main():
+    #local_jpg_caany_contours()
+    url_jpg_contours()
+    
+        
+if __name__ == "__main__":
+    main()
