@@ -76,13 +76,24 @@
 3. cv2.Canny(img, position, position * 3)，position用于设置图片边缘阈值，默认值25.后期建议做成调节杆，方便用户前端直接控制效果并输出。
 4. 通过url载入图片文件,`urllib2.urlopen(url).read()`解析后为str类型，需要重建为cv能够识别的矩阵类型。在对重建矩阵解码为图片格式：iplimage。Canny的输出结果也是iplimage格式。但是cvfindcontour载入源图需要类型为numpy.ndarry，因此数据需要转换，方法如下：
 
-	image = Image.open(“ponzo.jpg”)   # image is a PIL image 
+	下表列出了在这三种对象之间转换的方法：
+	在数组、iplimage以及cvmat之间转换
 
-	array = numpy.array(image)          # array is a numpy array 
+| 类型转换 | 方法 |
+|--------|--------|
+|    array→cvmat   |    cv.fromarray(array)     |
+| cvmat→array |	np.asarray(cvmat) |
+| cvmat→iplimage | cv.GetImage(cvmat) |
+| iplimage→cvmat	|iplimage[:]，或cv.GetMat(iplimage) |
 
-	image2 = Image.fromarray(array)   # image2 is a PIL image
+如果需要在array和iplimage之间转换，可以通过cvmat作为桥梁，本代码中使用`edge_im_array = np.asarray(edge_im[:])`
+
+finish 2015年12月16日
 
 
+
+
+******
 
 参考：
 
