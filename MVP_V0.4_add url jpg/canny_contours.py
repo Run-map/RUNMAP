@@ -29,9 +29,9 @@ def local_jpg_caany_contours():
     print "contours num:%s" %str_len_contours
     contours_list = contours[-1].tolist()
     #contours_location=np.array(contours_list).reshape(-1,).tolist()
-    contours_location=np.array(contours_list).tolist()
+    #contours_location=np.array(contours_list).tolist()
     #print contours_list
-    print contours_location
+    print contours_list
 
 
     scale = 1 #不缩放
@@ -55,7 +55,7 @@ def local_jpg_caany_contours():
     s.write("Gray pix nums:" +"%s" %gray_pix + "\n")
     s.write("canny_img_pix  nums:" +"%s" %canny_img_pix + "\n")
     s.write("contours num:" +"%s" %str_len_contours + "\n") 
-    for ele in contours_location:
+    for ele in contours_list:
      s.write("%s\n" % ele)
     s.write("**"*50  + "\n")
     s.close()
@@ -104,9 +104,9 @@ def url_jpg_contours():
     str_len_contours = str(len(contours)) #取轮廊数量
     contours_list =  contours[-1].tolist()
     
-    #print contours_list          #输出所有轨迹
+    #print contours_list          #输出所有轨迹坐标
     print contours_list[0][0][0] #输出第一个轨迹的X坐标
-    print contours_list[0][0][1] #输出第一个轨迹的X坐标
+    #print contours_list[0][0][1] #输出第一个轨迹的X坐标
 
     scale = 1 #不缩放
     contours_img = cv2.resize(contours_img, (0, 0), fx=scale, fy=scale)
@@ -126,13 +126,13 @@ def url_jpg_contours():
     ss.write("edge_im_array_pix nums:" +"%s" %edge_im_array_pix + "\n") 
     ss.write("contours_img_pix nums:" +"%s" %contours_img_pix + "\n") 
     ss.write("_url_contours num:" +"%s" %str_len_contours + "\n") 
-    for ele in contours_location:
+    for ele in contours_list:
      ss.write("%s\n" % ele)
     ss.write("**"*50  + "\n")
     ss.close()
-    print contours_location[-2][0][1]
+    print contours_list[0][0][1]
     cv2.waitKey(0)
-    
+    return contours_list
 def main():
     #local_jpg_caany_contours()
     url_jpg_contours()
