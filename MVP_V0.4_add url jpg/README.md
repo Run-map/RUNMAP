@@ -95,6 +95,34 @@ finish 2015年12月16日
 
 ******
 
+2015年12月17日
+
+思考百度api JavaScript语言轨迹生成
+
+1. 用户请求上传跑图图片至图片处理服务器，
+2. 客户本地端调用JavaScript“事件”提取本地gps坐标
+
+	var addr = evt.detail.coords;
+
+	var x = addr.lng;
+
+	var y = addr.lat;
+2. 根据本地（x,y）坐标为新的轨迹list起点
+3. 将图片处理服务器返回的结果list轮廊数据contours（轮廊矩阵），contours_list（list）输出给主程序，并写入主服务器数据库；
+4. 主服务器根据图片服务器返回值，
+	1. contours[0]表示第一条轨迹矩阵，--》contours[n=len(contours)]表示最后一条轨迹曲线矩阵,contours[0][0]表示第一个轨迹的第一个坐标例如[[192，8]]
+
+
+list 的遍历：
+例如：
+	m= [[[12]],[[13]],[[14]]],[[[15]],[[16]],[[17]]] 
+	for i in range(len(m)):
+     for j in range(len(m[i])+1):
+        for k in range(len(m[i][j])+1):
+            for l in range(len(m[i][j][k])+1):
+			print m[i][j-1][k-1][l-1]
+	
+
 参考：
 
 [http://stackoverflow.com/questions/18074680/extract-single-line-contours-from-canny-edges](http://stackoverflow.com/questions/18074680/extract-single-line-contours-from-canny-edges)

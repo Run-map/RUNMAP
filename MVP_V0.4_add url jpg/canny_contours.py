@@ -102,12 +102,22 @@ def url_jpg_contours():
     contours_img = cv2.cvtColor(edge_im_array, cv2.COLOR_GRAY2BGR)
     url_str_len_contours = str(len(contours)) #取轮廊数量
     str_len_contours = str(len(contours)) #取轮廊数量
-    contours_list =  contours[-1].tolist()
+   
+    #数据处理
+   
+    all_contours = contours[-1]  #所有轨迹坐标，数据格式为numpy.ndarry
+    all_contours_list = all_contours.tolist()
+    print contours
+    print contours[-1]          #输出所有轨迹坐标，数据格式为numpy.ndarry
+    print contours[0][0].tolist()[0] #输出第一条轨迹起始点坐标[[375 241]]并转化成list格式[[375，241]] |**.tolist()[0] 可以省掉一个中括号输出[375，241]
+    print contours[0][0].tolist()[0][0] #输出第一条轨迹起始点坐标的X坐标值。
+    print contours[0][0].tolist()[0][1] #输出第一条轨迹起始点坐标的Y坐标值。 
+    for cons0 in contours:
+     for cons1 in contours[cons0].tolist():
+       for cons2 in contours[cons0].tolist()[0]:
+         for cons3 in contours[cons0].tolist()[0][]:
     
-    #print contours_list          #输出所有轨迹坐标
-    print contours_list[0][0][0] #输出第一个轨迹的X坐标
-    #print contours_list[0][0][1] #输出第一个轨迹的X坐标
-
+    
     scale = 1 #不缩放
     contours_img = cv2.resize(contours_img, (0, 0), fx=scale, fy=scale)
     print "Url_jpg_contours_num:%s" %url_str_len_contours
@@ -122,17 +132,17 @@ def url_jpg_contours():
     edge_im_array_pix = str(np.size(edge_im_array))
     contours_img_pix = str(np.size(contours_img))
 
-    ss = open("_url_Contours.txt",'a')
+    ss = open("Contours" + ".log",'w')
     ss.write("edge_im_array_pix nums:" +"%s" %edge_im_array_pix + "\n") 
     ss.write("contours_img_pix nums:" +"%s" %contours_img_pix + "\n") 
     ss.write("_url_contours num:" +"%s" %str_len_contours + "\n") 
-    for ele in contours_list:
+    for ele in all_contours_list:
      ss.write("%s\n" % ele)
     ss.write("**"*50  + "\n")
     ss.close()
-    print contours_list[0][0][1]
+   
     cv2.waitKey(0)
-    return contours_list
+    #return contours_list
 def main():
     #local_jpg_caany_contours()
     url_jpg_contours()
