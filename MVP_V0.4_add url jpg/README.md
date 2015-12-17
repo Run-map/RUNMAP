@@ -107,20 +107,48 @@ finish 2015年12月16日
 	var x = addr.lng;
 
 	var y = addr.lat;
-2. 根据本地（x,y）坐标为新的轨迹list起点
-3. 将图片处理服务器返回的结果list轮廊数据contours（轮廊矩阵），contours_list（list）输出给主程序，并写入主服务器数据库；
+2. 根据本地（x,y）坐标为第一条轮廊的轨迹list起点。
+3. 将图片处理服务器返回的结果list轮廊数据contours（轮廊矩阵），输出给主程序，并写入主服务器数据库；
 4. 主服务器根据图片服务器返回值，
-	1. contours[0]表示第一条轨迹矩阵，--》contours[n=len(contours)]表示最后一条轨迹曲线矩阵,contours[0][0]表示第一个轨迹的第一个坐标例如[[192，8]]
+	1. contours[0]表示第一条轨迹坐标集合，--》contours[n=len(contours)]表示最后一条轨迹曲线矩阵,contours[0][0]表示第一个轨迹的第一个坐标例如[[192，8]]
+	2. 先执行第i条轨迹，完成后，再执行第i+1条轮廊起点与第1条轮廊起点的差值，生成第二条轨迹起点绝对地理坐标。以此类推。
 
 
-list 的遍历：
-例如：
-	m= [[[12]],[[13]],[[14]]],[[[15]],[[16]],[[17]]] 
+list index的遍历：
+> 例如：
+
+	m = [[[12,22]],[[13,23]],[[14,24]]],[[[14,25]],[[55,56]],[[99,98]]]
+	 
 	for i in range(len(m)):
-     for j in range(len(m[i])+1):
-        for k in range(len(m[i][j])+1):
-            for l in range(len(m[i][j][k])+1):
-			print m[i][j-1][k-1][l-1]
+		 for j in range(len(m[i])):
+			 for k in range(len(m[i][j])):
+				 for l in range(len(m[i][j][k])):
+					 print m[i][j][k][l]
+ 
+> 12
+> 22
+> 13
+> 23
+> 14
+> 24
+> 14
+> 25
+> 55
+> 56
+> 99
+> 98
+
+
+方法2：
+ 用reshape函数
+ 
+	import numpy
+	m = np.array([[[[12,22]],[[13,23]],[[14,24]]],[[[14,25]],[[55,56]],[[99,98]]]])
+
+	m.reshape(12)
+	array([12, 22, 13, 23, 14, 24, 14, 25, 55, 56, 99, 98])
+
+
 	
 
 参考：

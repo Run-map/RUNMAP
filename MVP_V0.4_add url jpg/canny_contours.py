@@ -98,24 +98,25 @@ def url_jpg_contours():
     #edge_jpg_gray = cv2.cvtColor(edge_im_array,cv2.COLOR_BGR2GRAY)
     ret, edge_im_array = cv2.threshold(edge_im_array,127,255,cv2.THRESH_BINARY)
     print type(edge_im_array)
-    contours, hierarchy = cv2.findContours(edge_im_array, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    contours, hierarchy = cv2.findContours(edge_im_array, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE) #压缩水平方向，垂直方向，对角线方向的元素，只保留该方向的终点坐标，例如一个矩形轮廓只需4个点来保存轮廓信息
     contours_img = cv2.cvtColor(edge_im_array, cv2.COLOR_GRAY2BGR)
     url_str_len_contours = str(len(contours)) #取轮廊数量
     str_len_contours = str(len(contours)) #取轮廊数量
    
     #数据处理
    
-    all_contours = contours[-1]  #所有轨迹坐标，数据格式为numpy.ndarry
-    all_contours_list = all_contours.tolist()
-    print contours
-    print contours[-1]          #输出所有轨迹坐标，数据格式为numpy.ndarry
-    print contours[0][0].tolist()[0] #输出第一条轨迹起始点坐标[[375 241]]并转化成list格式[[375，241]] |**.tolist()[0] 可以省掉一个中括号输出[375，241]
-    print contours[0][0].tolist()[0][0] #输出第一条轨迹起始点坐标的X坐标值。
-    print contours[0][0].tolist()[0][1] #输出第一条轨迹起始点坐标的Y坐标值。 
-    for cons0 in contours:
-     for cons1 in contours[cons0].tolist():
-       for cons2 in contours[cons0].tolist()[0]:
-         for cons3 in contours[cons0].tolist()[0][]:
+    first_contours = contours[0]  #第一条轨迹坐标集合，数据格式为numpy.ndarry
+    
+    first_contours_list = first_contours.tolist()
+    print contours                #输出所有轨迹坐标集合
+    #print contours[-1]          #输出最后一条轨迹坐标，数据格式为numpy.ndarry
+    #print contours[0][0].tolist()[0] #输出第一条轨迹起始点坐标[[375 241]]并转化成list格式[[375，241]] |**.tolist()[0] 可以省掉一个中括号输出[375，241]
+    #print contours[0][0].tolist()[0][0] #输出第一条轨迹起始点坐标的X坐标值。
+    #print contours[0][0].tolist()[0][1] #输出第一条轨迹起始点坐标的Y坐标值。 
+    
+    #print [i[0][0] for i in contours]
+    #print [i[0][0] for i in contours[0]]
+
     
     
     scale = 1 #不缩放
@@ -132,21 +133,25 @@ def url_jpg_contours():
     edge_im_array_pix = str(np.size(edge_im_array))
     contours_img_pix = str(np.size(contours_img))
 
-    ss = open("Contours" + ".log",'w')
+    ss = open("Contours" + ".log",'a')
     ss.write("edge_im_array_pix nums:" +"%s" %edge_im_array_pix + "\n") 
     ss.write("contours_img_pix nums:" +"%s" %contours_img_pix + "\n") 
     ss.write("_url_contours num:" +"%s" %str_len_contours + "\n") 
-    for ele in all_contours_list:
+    for ele in contours:
      ss.write("%s\n" % ele)
     ss.write("**"*50  + "\n")
     ss.close()
-   
-    cv2.waitKey(0)
+    return contours
+    cv2.waitKey(1000)
+
     #return contours_list
+
 def main():
     #local_jpg_caany_contours()
     url_jpg_contours()
     
+    
         
 if __name__ == "__main__":
     main()
+    
