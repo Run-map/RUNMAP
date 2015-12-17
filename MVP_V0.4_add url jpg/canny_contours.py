@@ -103,12 +103,10 @@ def url_jpg_contours():
     url_str_len_contours = str(len(contours)) #取轮廊数量
     str_len_contours = str(len(contours)) #取轮廊数量
     contours_list =  contours[-1].tolist()
-    for i in range(0,len(contours_list)):
-     contours_location = np.array(contours_list[i]).reshape(-1,).tolist()
-    #contours_location=np.array(contours).reshape(-1,).tolist()
-    #contours_location=np.array(contours_list).tolist() #矩阵转数组输出
-    print contours_location
     
+    #print contours_list          #输出所有轨迹
+    print contours_list[0][0][0] #输出第一个轨迹的X坐标
+    print contours_list[0][0][1] #输出第一个轨迹的X坐标
 
     scale = 1 #不缩放
     contours_img = cv2.resize(contours_img, (0, 0), fx=scale, fy=scale)
