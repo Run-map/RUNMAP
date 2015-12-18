@@ -10,6 +10,8 @@ import json #保证与javascript数据格式统一
 import cv2.cv as cv
 import numpy as np
 import urllib2
+import time
+
 
 position = 100
 
@@ -107,15 +109,20 @@ def url_jpg_contours():
    
     all_contours = contours[-1]  #所有轨迹坐标，数据格式为numpy.ndarry
     all_contours_list = all_contours.tolist()
-    print contours
-    print contours[-1]          #输出所有轨迹坐标，数据格式为numpy.ndarry
-    print contours[0][0].tolist()[0] #输出第一条轨迹起始点坐标[[375 241]]并转化成list格式[[375，241]] |**.tolist()[0] 可以省掉一个中括号输出[375，241]
-    print contours[0][0].tolist()[0][0] #输出第一条轨迹起始点坐标的X坐标值。
-    print contours[0][0].tolist()[0][1] #输出第一条轨迹起始点坐标的Y坐标值。 
-    for cons0 in contours:
-     for cons1 in contours[cons0].tolist():
-       for cons2 in contours[cons0].tolist()[0]:
-         for cons3 in contours[cons0].tolist()[0][]:
+    #print contours           #输出所有轨迹坐标，数据格式为numpy.ndarry
+    #print contours[0][0].tolist()[0] #输出第一条轨迹起始点坐标[[375 241]]并转化成list格式[[375，241]] |**.tolist()[0] 可以省掉一个中括号输出[375，241]
+    #print contours[0][0].tolist()[0][0] #输出第一条轨迹起始点坐标的X坐标值。
+    #print contours[0][0].tolist()[0][1] #输出第一条轨迹起始点坐标的Y坐标值。 
+    for cons0 in range(len(contours)):
+     #print contours[cons0]
+     for cons1 in range(len(contours[cons0].tolist())):
+        #print contours[cons0].tolist()[cons1]
+        for cons2 in range(len(contours[cons0].tolist()[cons1])):
+            for cons3 in range(len(contours[cons0].tolist()[cons1][cons2])):
+                print " loc_X%s = %s" %(cons1,contours[cons0].tolist()[cons1][cons2][cons3]) 
+          
+    
+    
     
     
     scale = 1 #不缩放
