@@ -119,7 +119,9 @@ def url_jpg_contours():
         #print contours[cons0].tolist()[cons1]
         for cons2 in range(len(contours[cons0].tolist()[cons1])):
             for cons3 in range(len(contours[cons0].tolist()[cons1][cons2])):
-                print " loc_X%s = %s" %(cons1,contours[cons0].tolist()[cons1][cons2][cons3]) 
+                print " loc %s _X,Y = %s,%s" %(cons1,contours[cons0].tolist()[cons1][cons2][0],contours[cons0].tolist()[cons1][cons2][1]) #所有轨迹的XY坐标
+             
+
           
     
     
