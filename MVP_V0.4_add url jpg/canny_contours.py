@@ -108,7 +108,7 @@ def url_jpg_contours():
     first_contours = contours[0]  #第一条轨迹坐标集合，数据格式为numpy.ndarry
     
     first_contours_list = first_contours.tolist()
-    print contours                #输出所有轨迹坐标集合
+    #print contours                #输出所有轨迹坐标集合
     #print contours[-1]          #输出最后一条轨迹坐标，数据格式为numpy.ndarry
     #print contours[0][0].tolist()[0] #输出第一条轨迹起始点坐标[[375 241]]并转化成list格式[[375，241]] |**.tolist()[0] 可以省掉一个中括号输出[375，241]
     #print contours[0][0].tolist()[0][0] #输出第一条轨迹起始点坐标的X坐标值。
@@ -133,16 +133,16 @@ def url_jpg_contours():
     edge_im_array_pix = str(np.size(edge_im_array))
     contours_img_pix = str(np.size(contours_img))
 
-    ss = open("Contours" + ".log",'a')
+    ss = open("Contours" + ".log",'w')
     ss.write("edge_im_array_pix nums:" +"%s" %edge_im_array_pix + "\n") 
     ss.write("contours_img_pix nums:" +"%s" %contours_img_pix + "\n") 
     ss.write("_url_contours num:" +"%s" %str_len_contours + "\n") 
     for ele in contours:
-     ss.write("%s\n" % ele)
+     ss.write("%s" % ele)
     ss.write("**"*50  + "\n")
     ss.close()
-    return contours
-    cv2.waitKey(1000)
+    #return contours
+    cv2.waitKey(0)
 
     #return contours_list
 

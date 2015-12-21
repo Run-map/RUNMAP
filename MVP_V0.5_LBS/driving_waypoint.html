@@ -1,12 +1,12 @@
-<html>
+ï»¿<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <style type="text/css">
-body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"Î¢ÈíÑÅºÚ";}
+body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"å¾®è½¯é›…é»‘";}
 </style>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=eYf9sA6yVTFHlh9ytU4a0EYY"></script>
-<title>ÉèÖÃ¼İ³µÂ·ÏßÍ¾¾­µã</title>
+<title>è®¾ç½®é©¾è½¦è·¯çº¿é€”ç»ç‚¹</title>
 </head>
 <body>
 <div id="allmap"></div>
@@ -14,7 +14,7 @@ body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-fami
 </html>
 <script type="text/javascript">
 
-// °Ù¶ÈµØÍ¼API¹¦ÄÜ
+// ç™¾åº¦åœ°å›¾APIåŠŸèƒ½
 var map = new BMap.Map("allmap");
 map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);
 map.enableScrollWheelZoom(true);
@@ -25,6 +25,6 @@ var p3 = new BMap.Point(116.508328,41.919141);
 var p4 = new BMap.Point(116.508328,42.919141);
 var p5 = new BMap.Point(116.508328,43.919141);
 var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});
-driving.search(p1, p1,{waypoints:[p3,p4,p5]});//waypoints±íÊ¾Í¾¾­µã
+driving.search(p1, p1,{waypoints:[p3,p4,p5,p2]});//waypointsè¡¨ç¤ºé€”ç»ç‚¹
 
 </script>
