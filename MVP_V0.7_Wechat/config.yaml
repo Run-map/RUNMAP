@@ -1,6 +1,0 @@
-name: rmapwx
-version: 1
-
-libraries:
-- name: numpy
-  version: "1.6.1"

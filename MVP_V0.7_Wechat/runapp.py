@@ -1,1 +1,1 @@
-python myapp.py runserver --host 0.0.0.0 --port 80 -d
+python app.py runserver --host 0.0.0.0 --port 80 -d

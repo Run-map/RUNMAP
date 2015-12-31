@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
-import sys,codecs
+
 from flask import request, render_template, session, redirect, url_for, current_app, make_response
 import json
 import logging
-
 from ..logger import handler
 from . import main
 import hashlib  
 import xml.etree.ElementTree as ET
 import cv2
-
+import sys,codecs
 import json
 import cv2.cv as cv
 import numpy as np
