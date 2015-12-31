@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=j69Afg8IK2tDbN2ysn509mqm"></script>
+	<title>RUNMAP</title>
+</head>
+<body>
+	<div id="allmap"></div>
+<script type="text/javascript">
+        function runMyMap(map, myP1, myP2) {
+		var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/Mario.png", new BMap.Size(32, 70), {    //小车图片
+			//offset: new BMap.Size(0, -5),    //相当于CSS精灵
+			imageOffset: new BMap.Size(0, 0)    //图片的偏移量。为了是图片底部中心对准坐标点。
+		  });
+		var driving2 = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});    //驾车实例
+		driving2.search(myP1, myP2);    //显示一条公交线路
+
+		window.run = function (){
+			var driving = new BMap.DrivingRoute(map);    //驾车实例
+			driving.search(myP1, myP2);
+			driving.setSearchCompleteCallback(function(){
+				var pts = driving.getResults().getPlan(0).getRoute(0).getPath();    //通过驾车实例，获得一系列点的数组
+				var paths = pts.length;    //获得有几个点
+
+				var carMk = new BMap.Marker(pts[0],{icon:myIcon});
+				map.addOverlay(carMk);
+				i=0;
+				function resetMkPoint(i){
+					carMk.setPosition(pts[i]);
+					if(i < paths){
+						setTimeout(function(){
+							i++;
+							resetMkPoint(i);
+						},100);
+					}
+				}
+				setTimeout(function(){
+					resetMkPoint(5);
+				},100)
+
+			});
+		}
+
+		setTimeout(function(){
+			run();
+		},1500);
+	}
+</script>
+
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+
+  	var geolocationControl = new BMap.GeolocationControl();
+  	map.addControl(geolocationControl);
+
+	var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			map.panTo(r.point);
+			map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat), 16);
+
+			var bounds = map.getBounds();
+			var sw = bounds.getSouthWest();
+			var ne = bounds.getNorthEast();
+			var lngSpan = Math.abs(sw.lng - ne.lng);
+			var latSpan = Math.abs(ne.lat - sw.lat);
+
+			var point = new BMap.Point(sw.lng + lngSpan * (Math.random() * 0.7), ne.lat - latSpan * (Math.random() * 0.7));
+			runMyMap(map, r.point, point)
+		}
+		else {
+			alert('failed'+this.getStatus());
+		}        
+	},{enableHighAccuracy: true})
+	//关于状态码
+	//BMAP_STATUS_SUCCESS	检索成功。对应数值“0”。
+	//BMAP_STATUS_CITY_LIST	城市列表。对应数值“1”。
+	//BMAP_STATUS_UNKNOWN_LOCATION	位置结果未知。对应数值“2”。
+	//BMAP_STATUS_UNKNOWN_ROUTE	导航结果未知。对应数值“3”。
+	//BMAP_STATUS_INVALID_KEY	非法密钥。对应数值“4”。
+	//BMAP_STATUS_INVALID_REQUEST	非法请求。对应数值“5”。
+	//BMAP_STATUS_PERMISSION_DENIED	没有权限。对应数值“6”。(自 1.1 新增)
+	//BMAP_STATUS_SERVICE_UNAVAILABLE	服务不可用。对应数值“7”。(自 1.1 新增)
+	//BMAP_STATUS_TIMEOUT	超时。对应数值“8”。(自 1.1 新增)
+	// 百度地图API功能
+</script>
+</body>
+</html>
