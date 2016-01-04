@@ -68,7 +68,7 @@
 + 最重要的：执行力
  + 有待提高(；′⌒`)
 
-工具
+###工具
 + Python
  + ipython
  + notebook
@@ -84,16 +84,21 @@
 + 虚拟机
  + vitrulBox
  + 安卓模拟器：Genymotion
++ H5(展示、发布)
+ + [Maka](http://www.maka.im/) 
++ 图床
+ + [七牛云存储](https://portal.qiniu.com/tutorial/index) 
 
-管理
+###管理
 + 个人管理
 + 团队管理
 + 时间
+ +  [《把时间当做朋友》-李笑来](http://book.douban.com/subject/25749845/)
 + 进度
 + 知识
 + 情绪
 
-专业：
+###专业：
 + 同行分析
 + 调研
 + 需求提取、评估、筛选
